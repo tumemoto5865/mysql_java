@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>top page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script>
+    function update_func(element) {
+    	var frame = element.parentNode.parentNode.childNodes[3];
+    	var form = document.createElement("form");
+        var input = document.createElement("input");
+        var hidden = document.createElement("input");
+    	var submit = document.createElement("input");
+    	form.method = "post";
+    	form.action = "/sample/" + element.parentNode.parentNode.childNodes[1].innerHTML;
+        input.type = "text";
+        input.name = "name";
+        input.value = element.parentNode.parentNode.childNodes[3].innerHTML;
+        hidden.type = "hidden";
+        hidden.name = "_method"
+        hidden.value = "put";
+        submit.type = "submit";
+        form.appendChild(input);
+        form.appendChild(hidden);
+        form.appendChild(submit);
+        frame.innerHTML = "";
+        frame.appendChild(form);
+        element.style.display = "none";
+    }
+    function destory_func(element) {
+        var form = document.createElement("form");
+        var hidden = document.createElement("input");
+        form.method = "post";
+        form.action = "/sample/" + element.parentNode.parentNode.childNodes[1].innerHTML;
+        hidden.type = "hidden";
+        hidden.name = "_method"
+        hidden.value = "delete";
+        form.appendChild(hidden);
+        document.body.appendChild(form);
+        form.submit();
+    }
+    
+    </script>
+</head>
+<body>
+<form method="post" name="create" action="/sample" accept-charset="UTF8"><input type="text" name="name"/><input type="submit" value="新規登録" /></form>
+  <table class="list">
+    <tr>
+      <th>ID</th>
+      <th>名前</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <tr th:each="list:${list}">
+      <td th:text="${list.id}"></td>
+      <td th:text="${list.name}"></td>
+      <td><a href="javascript:void(0);" onclick="update_func(this)">変更</a></td>
+      <td><a href="javascript:void(0);" onclick="destory_func(this);">削除</a></td>
+    </tr>
+  </table>
+</body>
+</html>
